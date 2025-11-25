@@ -1,0 +1,37 @@
+PEDDAREDDY SANDEEP KUMAR  
+Nellore | sandeepmandli657576@gmail.com | +91 -9963519716 | 
+www.linkedin.com/in/sandeepkumarpeddareddy | https:// github.com/Sandeep -4512  
+OBJECTIVE  
+Aspiring software developer with a strong foundation in Python, Java, and SQL , eager to 
+create innovative, scalable solutions. Seeking opportunities to enhance technical expertise, 
+collaborate on impactful projects, and contribute to a forward -thinking team.  
+TECHNICAL SKILLS  
+Python | Java | SQL | HTML | CSS  
+Agile Methodologies | GitHub | VS Code  
+INTERNSHIPS  
+AICTE EY -GDS Internship -Edunet Foundation (10 Feb 2025 – 21 Mar  2025 ) 
+Web Development with MERN Stack -Develop ed Personal Finance Manager, an expense 
+management platform for real -time tracking, user authentication, and  management.  
+Cognizant Agile Methodology Virtual Internship (Nov 2023)  
+Completed an Agile Methodology job simulation on The Forage platform, covering  Agile 
+tools, Agile vs. Waterfall, user stories, role assignments, and concepts. Gained hands -on 
+experience in Agile project management principles.  
+PROJECTS  
+PERSONAL FINANCE MANAGER PROJECT   
+Developed a financial tracking application during AICTE internship, enabling users to 
+manage expenses, set budgets, and analyze spending trends. Built using React.js, Node.js, 
+Express.js, and MongoDB, integrating data visualization with Chart.js.   
+Project websi te link : https://personal -finance -manager -app-black.vercel.app/  
+EDUCATION  
+B.Tech in Computer Science and Engineering  
+Sree Venkateswara College of Engineering, Nellore (Nov 2021 – Apr 2025) | CGPA: 7.85  
+Class XII (MPC)  
+Suvarna Bharati Junior College, Hin dupur  (Jun 2020 - Apr 2021) | Percentage: 90%  
+Class X  
+Mother EM High School, Roddam  (Jun 2018 - Mar 2019) | CGPA: 10.0  
+CERTIFICATIONS  
+Foundations of Cyber Security -Coursera | Microsoft Azure Fundamentals: AZ -900 |  
+Workshop on DevOps with AWS  
+ADDITIONAL DETAILS  
+Familiar with MERN Stack through guided projects and mentorship  | Strong problem -
+solving and analytical skills  | Ability to work in Agile development environments  
