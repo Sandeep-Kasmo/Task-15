@@ -25,68 +25,31 @@ def read_raw_text_from_file(local_path: str) -> str:
 
 def parse_resume_text(raw_text: str) -> pd.DataFrame:
     if not raw_text:
-        cols = ["Name", "Experience_List", "Summary", "Email", "Skills"]
-        return pd.DataFrame(columns=cols)
-
-    parsed_data: Dict[str, Any] = {
-        "Name": "N/A",
-        "Summary": "N/A",
-        "Email": "N/A",
-        "Skills": "",
-        "Experience_List": [] 
-    }
-
-    # --- 1. Basic Contact & Identity Extraction ---
-    
-    #extract the name , assuming the name is the start line  
-    name_match = re.search(r"^(.*?)(?=\n)", raw_text, re.MULTILINE)
+        return pd.DataFrame(columns=["Name","Email","Summary","Skills","Experience_List","Education"])
+    parsed_data={"Name":"N/A","Summary":"N/A","Email":"N/A","Skills":"","Experience_List":[],"Education":""}
+    name_match=re.search(r"^(.*?)(?=\n)",raw_text,re.MULTILINE)
     if name_match:
-        parsed_data["Name"] = name_match.group(0).strip()
-    
-    # Extract Email
-    email_match = re.search(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", raw_text)
+        parsed_data["Name"]=name_match.group(0).strip()
+    email_match=re.search(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",raw_text)
     if email_match:
-        parsed_data["Email"] = email_match.group(0)
-
-    # Extract Summary/Objective
-    summary_match = re.search(r"OBJECTIVE\s+(.*?)\s+TECHNICAL SKILLS", raw_text, re.DOTALL | re.IGNORECASE)
+        parsed_data["Email"]=email_match.group(0)
+    summary_match=re.search(r"(OBJECTIVE|SUMMARY|PROFESSIONAL SUMMARY)\s+(.*?)(TECHNICAL SKILLS|SKILLS|EDUCATION|INTERNSHIPS)",raw_text,re.DOTALL|re.IGNORECASE)
     if summary_match:
-        summary_text = summary_match.group(1).replace('\n', ' ').strip()
-        parsed_data["Summary"] = summary_text
-
-    # Extract Skills
-    skills_block_match = re.search(r"TECHNICAL SKILLS\s+(.*?)(INTERNSHIPS|PROJECTS)", raw_text, re.DOTALL | re.IGNORECASE)
-    raw_skills = skills_block_match.group(1) if skills_block_match else ""
-    
-        
-    found_skills = [skill for skill in SKILL_KEYWORDS if re.search(re.escape(skill), raw_skills, re.IGNORECASE)]
-    parsed_data["Skills"] = ", ".join(sorted(list(set(found_skills))))
-
-    # --- 2. Experience Aggregation (List of Strings) ---
-    
-    internship_block_match = re.search(r"INTERNSHIPS\s+(.*?)(PROJECTS|EDUCATION)", raw_text, re.DOTALL | re.IGNORECASE)
-    internship_block = internship_block_match.group(1) if internship_block_match else ""
-
-    # EXP_PATTERN: Captures the Organization/Title + the Date Range
-    EXP_PATTERN = r"(AICTE EY-GDS Internship-Edunet Foundation|Cognizant Agile Methodology Virtual Internship)\s*(\(.*?\))"
-    
-    exp_matches = re.findall(EXP_PATTERN, internship_block, re.DOTALL)
-
-    for match in exp_matches:
-        organization_title = match[0].strip() 
-        duration = match[1].strip()       
-        
-        # Combine into the required single string format
-        entry_string = f"{organization_title} {duration}"
-        parsed_data["Experience_List"].append(entry_string)
-    if parsed_data["Experience_List"]:
-        parsed_data["Experience_List"] = " ; ".join(parsed_data["Experience_List"])
-    else:
-        parsed_data["Experience_List"] = ""
-    
-    # --- 3. Final Transformation to Single-Row DataFrame ---
-    df = pd.DataFrame([parsed_data]) 
-    
-    return df
+        parsed_data["Summary"]=re.sub(r"\s+"," ",summary_match.group(2).replace("\n"," ").strip())
+    skills_block=re.search(r"(TECHNICAL SKILLS|SKILLS)\s+(.*?)(INTERNSHIPS|PROJECTS|EDUCATION)",raw_text,re.DOTALL|re.IGNORECASE)
+    raw_skills=skills_block.group(2) if skills_block else ""
+    found=[s for s in SKILL_KEYWORDS if re.search(re.escape(s),raw_skills,re.IGNORECASE)]
+    parsed_data["Skills"]=", ".join(sorted(set(found)))
+    intern_block=re.search(r"INTERNSHIPS\s+(.*?)(PROJECTS|EDUCATION|SKILLS|$)",raw_text,re.DOTALL|re.IGNORECASE)
+    intern_text=intern_block.group(1) if intern_block else ""
+    exp_pattern=r"(AICTE EY-GDS Internship-Edunet Foundation|Cognizant Agile Methodology Virtual Internship)\s*(\(.*?\))"
+    exp_matches=re.findall(exp_pattern,intern_text,re.DOTALL)
+    for m in exp_matches:
+        parsed_data["Experience_List"].append(f"{m[0].strip()} {m[1].strip()}")
+    parsed_data["Experience_List"]=" ; ".join(parsed_data["Experience_List"]) if parsed_data["Experience_List"] else ""
+    edu_block=re.search(r"(EDUCATION|ACADEMICS|QUALIFICATION|EDUCATIONAL BACKGROUND)\s+(.*?)(PROJECTS|SKILLS|INTERNSHIPS|EXPERIENCE|$)",raw_text,re.DOTALL|re.IGNORECASE)
+    if edu_block:
+        parsed_data["Education"]=re.sub(r"\s+"," ",edu_block.group(2).strip())
+    return pd.DataFrame([parsed_data])
 
 
