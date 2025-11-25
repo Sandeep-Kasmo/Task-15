@@ -40,16 +40,27 @@ Insert parsed data into MySQL
 Handle NULLs, datatypes, long text, etc.
 
 🗂️ Project Structure
+
 Resume_Parsing/
+
 │
+
 ├── src/
+
 │   ├── extract.py          # Handles S3 download and PDF → text extraction
+
 │   ├── transform.py        # Contains resume text parsing functions
+
 │   ├── load.py             # MySQL table creation + data insertion logic
+
 │   ├── trf.py              # Main driver script (ETL pipeline)
+
 │   ├── temp_resume_text.txt# Generated raw text from resume
+
 │
+
 ├── README.md
+
 └── requirements.txt
 
 📥 1. Extraction Module (extract.py)
